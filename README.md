@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MD Arif Foysal — Portfolio
 
-## Getting Started
+A personal portfolio website built with **Next.js 16** (App Router), **TypeScript**, and **Tailwind CSS v4**.
 
-First, run the development server:
+## ✨ Features
+
+- **Professional dark design** — refined typography, numbered sections, SVG icons (no emoji), sticky nav
+- **3D animated profile photo** — floating 3D portrait with an interactive tilt and rotating accent ring
+- **3D touchable keyboard** — a real, working QWERTY keyboard rendered in pure CSS 3D; type a message and press **Send ↵** to open WhatsApp with it pre-filled (wa.me click-to-chat)
+- **3D touchable floating stack chips** — tap a chip to flip it in 3D and reveal what it's used for
+- **3D tilt cards** — project and stack cards tilt in 3D as you hover
+- **Scroll-reveal animations** — sections and cards fade in as you scroll
+- **Subtle ambient background** — aurora glows, dot grid, and soft mouse parallax (respects `prefers-reduced-motion`)
+- **Live GitHub data** — project cards are enriched from the GitHub API at build time (last-updated dates, stars, forks) with a per-repo fallback fetch, so cards always carry live data
+- **CV-driven content** — experience timeline, IEEE publication with DOI link, education, and full skill stack
+- **Sections** — hero, floating stack strip, featured projects (incl. GameHub BD), tech stack, 3D keyboard playground, experience, research & publications, education, about, contact (GitHub / email / WhatsApp), footer
+- **Static with hourly ISR** — prerendered, revalidates project data every hour
+- **Responsive** — works on mobile and desktop
+
+## 🚀 Getting Started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📦 Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+Deploy to Vercel with zero configuration: `vercel --prod`.
 
-To learn more about Next.js, take a look at the following resources:
+## 🧰 Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Next.js · React · TypeScript · Tailwind CSS · GitHub REST API
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Structure
 
-## Deploy on Vercel
+```
+src/
+├── app/            # Pages & layout
+├── components/     # Section components (hero, projects, stack, experience, ...)
+├── lib/            # Project data + GitHub API integration
+└── three-background, tilt-card, reveal  # Animation building blocks
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ✏️ Customizing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Projects & copy** — edit `src/lib/projects.ts` and the components in `src/components/`
+- **Contact details** — update the email / LinkedIn placeholders in `src/components/contact.tsx`
