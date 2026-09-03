@@ -30,6 +30,21 @@ export const PROJECTS: Project[] = [
     homepage: "https://gamehub-bd-web.vercel.app",
   },
   {
+    id: "connect-social",
+    title: "ConnectSocial — Private Team Social Network",
+    description:
+      "Self-hostable, Facebook-style social network for companies & teams — department-scoped posts, image sharing, comments, reactions, real-time notifications, a moderation queue, and admin analytics. An npm-workspaces monorepo, live on Vercel.",
+    highlights: [
+      "Live demo on Vercel — self-hostable on your own infra in ~5 minutes",
+      "Real-time notifications & moderation queue over WebSocket",
+      "Magic-byte-validated image uploads on posts",
+      "RBAC across 4 roles + admin analytics, audit timeline & engagement leaderboard",
+    ],
+    stack: ["Next.js", "NestJS", "TypeORM", "MySQL", "TypeScript", "WebSockets", "JWT", "Tailwind CSS"],
+    repoUrl: "https://github.com/ariffaysal/connect-social",
+    homepage: "https://connect-social-five.vercel.app",
+  },
+  {
     id: "-Suzu-BD",
     title: "Suzu BD — Footwear E-Commerce",
     description:
