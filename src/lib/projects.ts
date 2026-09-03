@@ -31,14 +31,14 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "connect-social",
-    title: "ConnectSocial — Private Team Social Network",
+    title: "ConnectSocial — Company-Wide Internal Communication Platform",
     description:
-      "Self-hostable, Facebook-style social network for companies & teams — department-scoped posts, image sharing, comments, reactions, real-time notifications, a moderation queue, and admin analytics. An npm-workspaces monorepo, live on Vercel.",
+      "An internal social network that lets an entire company communicate in one place. Employees post updates, share images, and collaborate inside department feeds for Marketing, Sales, Engineering, HR, Finance and more — or company-wide for everyone to see. SuperAdmins can monitor all activity with analytics, an audit timeline, and an engagement leaderboard, while clients can join as read-only guests and watch the team's communications. A full-stack, self-hostable Next.js + NestJS monorepo, live on Vercel.",
     highlights: [
-      "Live demo on Vercel — self-hostable on your own infra in ~5 minutes",
-      "Real-time notifications & moderation queue over WebSocket",
-      "Magic-byte-validated image uploads on posts",
-      "RBAC across 4 roles + admin analytics, audit timeline & engagement leaderboard",
+      "Posts, images, comments & reactions — company-wide or per department (Marketing, Sales, Engineering, HR…)",
+      "Clients join as guests with read-only access to follow team communications",
+      "SuperAdmin monitoring: activity timeline, analytics overview & engagement leaderboard",
+      "Real-time notifications over WebSocket + live demo on Vercel",
     ],
     stack: ["Next.js", "NestJS", "TypeORM", "MySQL", "TypeScript", "WebSockets", "JWT", "Tailwind CSS"],
     repoUrl: "https://github.com/ariffaysal/connect-social",
