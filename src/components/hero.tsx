@@ -1,6 +1,12 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { DocumentIcon, GithubIcon, LinkedinIcon, MailIcon } from "./icons";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL, LOCATION, RESUME_URL } from "@/lib/contact";
+
+/** Stagger for the night-theme entrance; the day theme ignores the value. */
+function revealDelay(ms: number): CSSProperties {
+  return { "--reveal-delay": `${ms}ms` } as CSSProperties;
+}
 
 const FACTS = [
   { term: "Currently", detail: "Software Engineer, Skyview Online Ltd" },
@@ -17,7 +23,11 @@ export default function Hero() {
       <div className="relative mx-auto max-w-5xl px-6 pb-14 pt-14 sm:pb-16 sm:pt-20">
         <div className="grid gap-12 md:grid-cols-[1fr_15rem] md:gap-14">
           <div className="min-w-0">
-            <p className="label flex flex-wrap items-center gap-x-3 gap-y-2">
+            <p
+              data-reveal
+              style={revealDelay(0)}
+              className="label flex flex-wrap items-center gap-x-3 gap-y-2"
+            >
               <span className="inline-flex items-center gap-2">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="ping-ring absolute inline-flex h-full w-full rounded-full bg-accent" />
@@ -31,18 +41,30 @@ export default function Hero() {
               <span>{LOCATION}</span>
             </p>
 
-            <h1 className="mt-6 max-w-[38rem] font-serif text-[36px] leading-[1.07] tracking-[-0.025em] text-ink sm:text-[50px]">
+            <h1
+              data-reveal
+              style={revealDelay(90)}
+              className="mt-6 max-w-[38rem] font-serif text-[36px] leading-[1.07] tracking-[-0.025em] text-ink sm:text-[50px]"
+            >
               Full-stack engineer shipping production systems and applied machine learning.
             </h1>
 
-            <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-muted">
+            <p
+              data-reveal
+              style={revealDelay(180)}
+              className="mt-6 max-w-xl text-[16px] leading-relaxed text-muted"
+            >
               I work across the whole stack — PostgreSQL schemas and NestJS APIs through to the
               Next.js interface — and I keep what I build running in production. Today that is an
               HRMS at Skyview Online Ltd; alongside it sits an IEEE publication on deep learning for
               financial forecasting.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-2.5">
+            <div
+              data-reveal
+              style={revealDelay(270)}
+              className="mt-8 flex flex-wrap items-center gap-2.5"
+            >
               <a
                 href={`mailto:${EMAIL}`}
                 className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-[13px] font-medium text-paper transition-opacity hover:opacity-85"
@@ -80,16 +102,19 @@ export default function Hero() {
             </div>
           </div>
 
-          <figure className="min-w-0">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-surface">
-              <Image
-                src="/profile-photo.jpg"
-                alt="MD Arif Foysal presenting his IEEE publication at the QPAIN 2026 conference"
-                fill
-                priority
-                sizes="(min-width: 768px) 15rem, 100vw"
-                className="object-cover"
-              />
+          <figure data-reveal style={revealDelay(160)} className="min-w-0">
+            {/* The ring itself is dark-mode only; see .rgb-frame in globals.css. */}
+            <div className="rgb-frame relative aspect-[4/5] w-full rounded-sm bg-surface">
+              <div className="absolute inset-0 overflow-hidden rounded-sm">
+                <Image
+                  src="/profile-photo.jpg"
+                  alt="MD Arif Foysal presenting his IEEE publication at the QPAIN 2026 conference"
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 15rem, 100vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
             <figcaption className="mt-3 font-mono text-[11px] leading-relaxed text-muted">
               Presenting the QPAIN 2026 paper, IEEE Conference Proceedings.
@@ -98,8 +123,8 @@ export default function Hero() {
         </div>
 
         <dl className="mt-14 grid gap-x-10 gap-y-6 border-t border-line pt-7 sm:grid-cols-3">
-          {FACTS.map((fact) => (
-            <div key={fact.term}>
+          {FACTS.map((fact, index) => (
+            <div key={fact.term} data-reveal style={revealDelay(index * 90)}>
               <dt className="label">{fact.term}</dt>
               <dd className="mt-2 text-[14px] leading-snug text-ink">{fact.detail}</dd>
             </div>

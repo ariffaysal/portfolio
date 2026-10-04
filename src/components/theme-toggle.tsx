@@ -35,8 +35,12 @@ export default function ThemeToggle() {
 
     if (next === "night") {
       root.dataset.theme = "dark";
+      // Arm the night-only motion layer in the same synchronous step as the
+      // palette swap, so the day theme never inherits a half-applied state.
+      root.dataset.motion = "on";
     } else {
       delete root.dataset.theme;
+      delete root.dataset.motion;
     }
 
     try {

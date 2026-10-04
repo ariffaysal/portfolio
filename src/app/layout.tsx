@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
+import NightBackground from "@/components/night-background";
+import NightMotion from "@/components/night-motion";
 import { NAME, ROLE, LOCATION } from "@/lib/contact";
 
 const sans = Geist({
@@ -62,13 +64,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${sans.variable} ${mono.variable} ${serif.variable} h-full antialiased`}
     >
       <body className="min-h-full font-sans">
-        {/* Runs before first paint so the stored theme never flashes. */}
+        {/*
+          Runs before first paint so the stored theme never flashes, and so the
+          night-only motion layer is armed in the same frame the dark palette
+          lands. Day visitors are untouched by both.
+        */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{if(localStorage.getItem('theme')==='night'){document.documentElement.dataset.theme='dark'}}catch(e){}})();",
+              "(function(){try{if(localStorage.getItem('theme')==='night'){var d=document.documentElement;d.dataset.theme='dark';d.dataset.motion='on';setTimeout(function(){if(!d.dataset.motionReady){d.removeAttribute('data-motion')}},2500)}}catch(e){}})();",
           }}
         />
+        <NightBackground />
+        <NightMotion />
         {children}
       </body>
     </html>
