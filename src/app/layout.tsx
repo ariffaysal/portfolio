@@ -1,35 +1,56 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
+import { NAME, ROLE, LOCATION } from "@/lib/contact";
 
-const geistSans = Geist({
+const sans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
+const mono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
+const serif = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const description = `${ROLE} in ${LOCATION}. I build production web systems with NestJS, Next.js and PostgreSQL, and published IEEE research in applied deep learning.`;
+
 export const metadata: Metadata = {
-  title: "MD Arif Foysal — Full-Stack Developer",
-  description:
-    "Portfolio of MD Arif Foysal — full-stack developer building SaaS and e-commerce applications with Next.js, NestJS, and TypeScript.",
+  metadataBase: new URL("https://ariffaysal.vercel.app"),
+  title: `${NAME} — ${ROLE}`,
+  description,
   keywords: [
-    "MD Arif Foysal",
-    "Full-Stack Developer",
-    "Next.js",
+    NAME,
+    ROLE,
     "NestJS",
+    "Next.js",
     "TypeScript",
-    "React",
     "PostgreSQL",
+    "React",
+    "Machine Learning",
+    LOCATION,
   ],
+  authors: [{ name: NAME }],
   openGraph: {
-    title: "MD Arif Foysal — Full-Stack Developer",
-    description:
-      "Full-stack developer building SaaS and e-commerce applications with Next.js, NestJS, and TypeScript.",
-    type: "website",
+    type: "profile",
+    title: `${NAME} — ${ROLE}`,
+    description,
+    siteName: NAME,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${NAME} — ${ROLE}`,
+    description,
   },
 };
 
@@ -37,11 +58,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
+      className={`${sans.variable} ${mono.variable} ${serif.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-zinc-950 font-sans text-zinc-200 selection:bg-indigo-500/40 selection:text-white">
-        {children}
-      </body>
+      <body className="min-h-full font-sans">{children}</body>
     </html>
   );
 }

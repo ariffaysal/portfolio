@@ -1,21 +1,24 @@
 # MD Arif Foysal — Portfolio
 
-A personal portfolio website built with **Next.js 16** (App Router), **TypeScript**, and **Tailwind CSS v4**.
+A personal portfolio built with **Next.js 16** (App Router), **TypeScript**, and **Tailwind CSS v4**.
 
-## ✨ Features
+## ✨ Design
 
-- **Professional dark design** — refined typography, numbered sections, SVG icons (no emoji), sticky nav
-- **3D animated profile photo** — floating 3D portrait with an interactive tilt and rotating accent ring
-- **3D touchable keyboard** — a real, working QWERTY keyboard rendered in pure CSS 3D; type a message and press **Send ↵** to open WhatsApp with it pre-filled (wa.me click-to-chat)
-- **3D touchable floating stack chips** — tap a chip to flip it in 3D and reveal what it's used for
-- **3D tilt cards** — project and stack cards tilt in 3D as you hover
-- **Scroll-reveal animations** — sections and cards fade in as you scroll
-- **Subtle ambient background** — aurora glows, dot grid, and soft mouse parallax (respects `prefers-reduced-motion`)
-- **Live GitHub data** — project cards are enriched from the GitHub API at build time (last-updated dates, stars, forks) with a per-repo fallback fetch, so cards always carry live data
-- **CV-driven content** — experience timeline, IEEE publication with DOI link, education, and full skill stack
-- **Sections** — hero, floating stack strip, featured projects (incl. GameHub BD), tech stack, 3D keyboard playground, experience, research & publications, education, about, contact (GitHub / email / WhatsApp), footer
-- **Static with hourly ISR** — prerendered, revalidates project data every hour
-- **Responsive** — works on mobile and desktop
+An editorial layout rather than a template: a warm paper background, hairline rules, and a
+serif/sans/mono type system doing the work that gradients and motion usually get asked to do.
+
+- **Type system** — Newsreader for display headings, Geist for body copy, Geist Mono for labels and metadata
+- **Two-column sections** — a monospace marker in a narrow left gutter, content in a wider right column
+- **Hairline structure** — `border-line` rules instead of cards, shadows and glows
+- **One accent** — a single vermilion used only for links, the active nav item, and the current-role badge
+- **No animation dependencies** — no 3D layers, tilt cards, parallax, or reveal-on-scroll effects
+
+## 🧭 Functionality
+
+- **Scroll-spy navigation** derived from live geometry, so the active section is always correct
+- **Accessible mobile menu** with `aria-expanded`, escape-to-close, and focus-visible rings
+- **Downloadable résumé** served from `public/MD-Arif-Foysal-CV.pdf`
+- **Fully static** — no runtime data fetching, so builds are deterministic and there is no third-party API on the critical path
 
 ## 🚀 Getting Started
 
@@ -37,19 +40,20 @@ Deploy to Vercel with zero configuration: `vercel --prod`.
 
 ## 🧰 Stack
 
-Next.js · React · TypeScript · Tailwind CSS · GitHub REST API
+Next.js · React · TypeScript · Tailwind CSS v4
 
 ## 📁 Structure
 
 ```
 src/
-├── app/            # Pages & layout
-├── components/     # Section components (hero, projects, stack, experience, ...)
-├── lib/            # Project data + GitHub API integration
-└── three-background, tilt-card, reveal  # Animation building blocks
+├── app/            # Layout, global design tokens, page composition
+├── components/     # Section components (hero, projects, experience, research, …)
+└── lib/            # Project data and contact/identity constants
 ```
 
 ## ✏️ Customizing
 
-- **Projects & copy** — edit `src/lib/projects.ts` and the components in `src/components/`
-- **Contact details** — update the email / LinkedIn placeholders in `src/components/contact.tsx`
+- **Content** — edit `src/lib/projects.ts` for project entries. Keep the list curated; every entry should be something actually shipped.
+- **Identity & links** — name, email, GitHub, LinkedIn, résumé path and DOI live in `src/lib/contact.ts`
+- **Design tokens** — colours and fonts are defined in the `@theme` blocks in `src/app/globals.css`
+- **Section order** — compose sections in `src/app/page.tsx`; each one is a `<Section>` with a `label` and `title`

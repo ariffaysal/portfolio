@@ -1,6 +1,4 @@
-import Reveal from "./reveal";
-
-type ExperienceItem = {
+type Role = {
   period: string;
   role: string;
   org: string;
@@ -10,108 +8,75 @@ type ExperienceItem = {
   current?: boolean;
 };
 
-const EXPERIENCE: ExperienceItem[] = [
+const ROLES: Role[] = [
   {
     period: "Feb 2026 — Present",
-    role: "Full-Stack Software Engineer",
+    role: "Software Engineer",
     org: "Skyview Online Ltd",
     location: "Dhaka, Bangladesh",
-    note: "Joined as a Software Engineer Intern in Feb 2026 — promoted to Full-Stack Software Engineer in May 2026.",
+    note: "Joined as an intern in Feb 2026 and moved into a full-time engineering role in May 2026.",
     current: true,
     points: [
-      "Developing an HR Management System (HRMS) to automate employee records, attendance tracking, and payroll processing.",
-      "Implemented role-based access control (RBAC) for secure multi-user management and data integrity.",
-      "Optimized backend performance by refining API response logic and complex database queries in NestJS.",
-      "Collaborated on the architecture of scalable backend systems using PostgreSQL and TypeORM.",
+      "Building an HR Management System that automates employee records, attendance tracking and payroll end-to-end.",
+      "Implemented role-based access control across the platform to enforce secure multi-user management and data integrity.",
+      "Optimised REST API response logic and complex PostgreSQL queries within a NestJS architecture.",
+      "Design and maintain a scalable backend on PostgreSQL and TypeORM, focused on data consistency and query efficiency.",
+      "Run production releases over FTP/SFTP with minimal downtime, and track work in Agile sprints.",
     ],
   },
   {
     period: "2026",
     role: "Research Co-Author",
-    org: "ML-Based Software Failure Risk Prediction — AIUB",
+    org: "American International University-Bangladesh",
     points: [
-      "Proposed an ML framework using the NASA JM1 dataset for early software defect prediction.",
-      "Compared Logistic Regression, Random Forest, and XGBoost; used SMOTE for class imbalance.",
-      "Integrated SHAP/LIME for interpretability (Explainable AI) and a probability-based risk classification.",
-    ],
-  },
-  {
-    period: "2025",
-    role: "Full-Stack Developer",
-    org: "WhatsApp Notice Management System",
-    points: [
-      "Built a centralized system to manage and distribute notices across multiple WhatsApp groups via browser integration.",
-      "Developed automated message broadcasting and real-time group synchronization.",
-      "Designed and documented REST APIs while optimizing relational database structures for high message volume.",
-    ],
-  },
-  {
-    period: "2024",
-    role: "Full-Stack Developer",
-    org: "Attendance Intelligence System",
-    points: [
-      "Engineered a parsing tool that converts raw attendance logs into structured, actionable datasets.",
-      "Generated automated reports for workforce tracking, salary timing, and organizational efficiency analysis.",
-    ],
-  },
-  {
-    period: "2024",
-    role: "Machine Learning Project",
-    org: "ML-Based Crypto & Stock Prediction",
-    points: [
-      "Built time-series forecasting models for market trends using GRU, LSTM, and Bi-LSTM architectures.",
-      "Cleaned and analyzed financial datasets to improve prediction accuracy and identify historical patterns.",
+      "Proposed an ML framework for early software defect prediction on the NASA JM1 dataset.",
+      "Compared Logistic Regression, Random Forest and XGBoost classifiers, handling class imbalance with SMOTE.",
     ],
   },
 ];
 
 export default function Experience() {
   return (
-    <ol className="relative space-y-8 border-l border-white/10 pl-8">
-      {EXPERIENCE.map((item, index) => (
-        <li key={`${item.role}-${item.org}`} className="relative">
-          {/* Timeline dot */}
-          <span
-            className={`absolute -left-[37px] top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full border ${
-              item.current
-                ? "border-emerald-400/60 bg-emerald-500/30"
-                : "border-indigo-400/40 bg-indigo-500/20"
-            }`}
-          >
-            {item.current && (
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-40" />
-            )}
-          </span>
+    <ol className="border-t border-line">
+      {ROLES.map((item) => (
+        <li
+          key={`${item.role}-${item.org}`}
+          className="grid gap-x-8 gap-y-3 border-b border-line py-8 sm:grid-cols-[9.5rem_1fr]"
+        >
+          <p className="label pt-1.5 tabular-nums">{item.period}</p>
 
-          <Reveal delay={(index % 3) * 70}>
-            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-indigo-400/40">
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <h3 className="text-sm font-semibold text-zinc-100">{item.role}</h3>
-                <span className="text-sm text-zinc-500">·</span>
-                <span className="text-sm text-indigo-300">{item.org}</span>
-                {item.current && (
-                  <span className="rounded-full border border-emerald-400/40 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-300">
-                    Current
-                  </span>
-                )}
-              </div>
-              <p className="mt-1 font-mono text-xs text-zinc-500">
-                {item.period}
-                {item.location ? ` · ${item.location}` : ""}
-              </p>
-              {item.note && (
-                <p className="mt-2 text-xs leading-relaxed text-emerald-300/90">{item.note}</p>
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <h3 className="font-serif text-[20px] leading-snug tracking-[-0.01em] text-ink">
+                {item.role}
+              </h3>
+              <p className="text-[14px] text-ink">{item.org}</p>
+              {item.current && (
+                <span className="rounded-full border border-accent/30 bg-accent/8 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-accent">
+                  Current
+                </span>
               )}
-              <ul className="mt-3 space-y-1.5">
-                {item.points.map((point) => (
-                  <li key={point} className="flex items-start gap-2 text-sm text-zinc-400">
-                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-indigo-400" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
             </div>
-          </Reveal>
+
+            {item.location && (
+              <p className="mt-1 font-mono text-[11px] tracking-wide text-muted">{item.location}</p>
+            )}
+
+            {item.note && (
+              <p className="mt-3 text-[13.5px] leading-relaxed text-muted italic">{item.note}</p>
+            )}
+
+            <ul className="mt-4 space-y-1.5">
+              {item.points.map((point) => (
+                <li
+                  key={point}
+                  className="relative pl-4 text-[14px] leading-relaxed text-muted before:absolute before:left-0 before:top-[0.6em] before:h-1 before:w-1 before:rounded-full before:bg-line"
+                >
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
         </li>
       ))}
     </ol>

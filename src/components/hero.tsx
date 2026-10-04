@@ -1,122 +1,107 @@
-import Link from "next/link";
-import ProfilePhoto from "./profile-photo";
+import Image from "next/image";
+import { DocumentIcon, GithubIcon, LinkedinIcon, MailIcon } from "./icons";
+import { EMAIL, GITHUB_URL, LINKEDIN_URL, LOCATION, RESUME_URL } from "@/lib/contact";
 
-const SKILL_BADGES = [
-  "Next.js",
-  "NestJS",
-  "TypeScript",
-  "Python",
-  "PostgreSQL",
-  "React",
-  "Tailwind CSS",
-  "LSTM / GRU",
+const FACTS = [
+  { term: "Currently", detail: "Software Engineer, Skyview Online Ltd" },
+  { term: "Published", detail: "IEEE QPAIN 2026 · GRU/LSTM/Bi-LSTM forecasting" },
+  { term: "Education", detail: "BSc Computer Science & Engineering, AIUB" },
 ];
-
-const STATS = [
-  { value: "7+", label: "Projects shipped" },
-  { value: "1", label: "IEEE paper" },
-  { value: "4+", label: "Years coding" },
-];
-
-function BookIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <path d="M12 6.25c-1.8-1.4-4.2-2-7-2v14c2.8 0 5.2.6 7 2 1.8-1.4 4.2-2 7-2v-14c-2.8 0-5.2.6-7 2Z" />
-      <path d="M12 6.25v14" />
-    </svg>
-  );
-}
 
 export default function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 pb-24 pt-20 sm:pt-28 lg:grid-cols-[1.15fr_1fr]">
-        {/* Left: copy */}
-        <div className="text-center lg:text-left">
-          <div className="flex flex-wrap items-center justify-center gap-2.5 lg:justify-start">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-zinc-300">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+    <section id="top" className="border-b border-line">
+      <div className="mx-auto max-w-5xl px-6 pb-14 pt-14 sm:pb-16 sm:pt-20">
+        <div className="grid gap-12 md:grid-cols-[1fr_15rem] md:gap-14">
+          <div className="min-w-0">
+            <p className="label flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span className="inline-flex items-center gap-2">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+                </span>
+                Available for full-time roles
               </span>
-              Open to work
-            </span>
-            <a
-              href="https://doi.org/10.1109/QPAIN69676.2026.11545577"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-indigo-400/25 bg-indigo-500/10 px-3.5 py-1.5 text-xs font-medium text-indigo-300 transition-colors hover:border-indigo-400/60 hover:text-indigo-200"
-            >
-              <BookIcon className="h-3.5 w-3.5" />
-              IEEE Publication
-            </a>
+              <span aria-hidden="true" className="text-line">
+                /
+              </span>
+              <span>{LOCATION}</span>
+            </p>
+
+            <h1 className="mt-6 max-w-[38rem] font-serif text-[36px] leading-[1.07] tracking-[-0.025em] text-ink sm:text-[50px]">
+              Full-stack engineer shipping production systems and applied machine learning.
+            </h1>
+
+            <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-muted">
+              I work across the whole stack — PostgreSQL schemas and NestJS APIs through to the
+              Next.js interface — and I keep what I build running in production. Today that is an
+              HRMS at Skyview Online Ltd; alongside it sits an IEEE publication on deep learning for
+              financial forecasting.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-2.5">
+              <a
+                href={`mailto:${EMAIL}`}
+                className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-[13px] font-medium text-paper transition-opacity hover:opacity-85"
+              >
+                <MailIcon className="h-4 w-4" />
+                Get in touch
+              </a>
+              <a
+                href={RESUME_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-[13px] font-medium text-ink transition-colors hover:bg-surface"
+              >
+                <DocumentIcon className="h-4 w-4" />
+                Résumé
+              </a>
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-[13px] font-medium text-ink transition-colors hover:bg-surface"
+              >
+                <GithubIcon className="h-4 w-4" />
+                GitHub
+              </a>
+              <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-[13px] font-medium text-ink transition-colors hover:bg-surface"
+              >
+                <LinkedinIcon className="h-4 w-4" />
+                LinkedIn
+              </a>
+            </div>
           </div>
 
-          <h1 className="mt-7 text-4xl font-bold leading-[1.1] tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl">
-            MD Arif{" "}
-            <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
-              Foysal
-            </span>
-          </h1>
-
-          <p className="mt-4 font-mono text-sm text-zinc-400 sm:text-base">
-            Full-Stack Developer · NestJS + Next.js · ML &amp; AI Automation
-          </p>
-
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-zinc-400 lg:mx-0">
-            I build complete products — from database schema and REST APIs to polished interfaces —
-            and ship them to production. Currently working at{" "}
-            <span className="text-zinc-200">Skyview Online Ltd</span> as a{" "}
-            <span className="text-zinc-200">Full-Stack Software Engineer</span>, building HRMS
-            tooling and optimizing NestJS backends.
-          </p>
-
-          <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
-            <Link
-              href="#projects"
-              className="w-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 px-7 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-indigo-950/50 transition-transform hover:scale-[1.03] sm:w-auto"
-            >
-              View My Projects
-            </Link>
-            <Link
-              href="#contact"
-              className="w-full rounded-full border border-white/15 px-7 py-3 text-center text-sm font-semibold text-zinc-200 transition-colors hover:border-indigo-400/50 hover:text-white sm:w-auto"
-            >
-              Get in Touch
-            </Link>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-12 grid grid-cols-3 gap-4 border-t border-white/10 pt-7 lg:max-w-md">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="text-center lg:text-left">
-                <p className="text-2xl font-bold text-zinc-50">{stat.value}</p>
-                <p className="mt-1 font-mono text-[11px] uppercase tracking-wider text-zinc-500">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
+          <figure className="min-w-0">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-surface">
+              <Image
+                src="/profile-photo.jpg"
+                alt="MD Arif Foysal presenting his IEEE publication at the QPAIN 2026 conference"
+                fill
+                priority
+                sizes="(min-width: 768px) 15rem, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <figcaption className="mt-3 font-mono text-[11px] leading-relaxed text-muted">
+              Presenting the QPAIN 2026 paper, IEEE Conference Proceedings.
+            </figcaption>
+          </figure>
         </div>
 
-        {/* Right: 3D photo */}
-        <div className="relative">
-          <ProfilePhoto />
-        </div>
-      </div>
-
-      {/* Skill badges strip */}
-      <div className="border-y border-white/5 bg-white/[0.02]">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-2.5 px-6 py-5">
-          {SKILL_BADGES.map((skill) => (
-            <span
-              key={skill}
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-xs text-zinc-400"
-            >
-              {skill}
-            </span>
+        <dl className="mt-14 grid gap-x-10 gap-y-6 border-t border-line pt-7 sm:grid-cols-3">
+          {FACTS.map((fact) => (
+            <div key={fact.term}>
+              <dt className="label">{fact.term}</dt>
+              <dd className="mt-2 text-[14px] leading-snug text-ink">{fact.detail}</dd>
+            </div>
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );

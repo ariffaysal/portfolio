@@ -1,12 +1,14 @@
+import { NAME } from "@/lib/contact";
+
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
-        <p className="font-mono text-xs text-zinc-500">
-          © {new Date().getFullYear()} MD Arif Foysal · Built with Next.js &amp; Tailwind CSS
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-5xl flex-col gap-2 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+        <p className="font-mono text-[11px] tracking-wide text-muted">
+          © {new Date().getFullYear()} {NAME}
         </p>
-        <p className="font-mono text-xs text-zinc-600">
-          TypeScript · NestJS · Next.js · PostgreSQL
+        <p className="font-mono text-[11px] tracking-wide text-muted">
+          Built with Next.js, TypeScript and Tailwind CSS
         </p>
       </div>
     </footer>

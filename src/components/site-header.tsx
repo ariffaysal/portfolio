@@ -1,70 +1,179 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { CloseIcon, DocumentIcon, GithubIcon, LinkedinIcon, MenuIcon } from "./icons";
+import { GITHUB_URL, LINKEDIN_URL, NAME, RESUME_URL } from "@/lib/contact";
 
 const NAV_LINKS = [
-  { label: "Projects", href: "#projects" },
-  { label: "Stack", href: "#stack" },
-  { label: "Playground", href: "#playground" },
+  { label: "Work", href: "#work" },
   { label: "Experience", href: "#experience" },
   { label: "Research", href: "#research" },
+  { label: "Toolkit", href: "#toolkit" },
   { label: "Contact", href: "#contact" },
 ];
 
+const ICON_LINKS = [
+  { label: "GitHub", href: GITHUB_URL, Icon: GithubIcon },
+  { label: "LinkedIn", href: LINKEDIN_URL, Icon: LinkedinIcon },
+];
+
 export default function SiteHeader() {
+  const [active, setActive] = useState("");
+  const [open, setOpen] = useState(false);
+
+  // Highlight the last section whose top has crossed an upper reading line.
+  // Derived from live geometry rather than IntersectionObserver entry diffs,
+  // which can report an exit without a matching enter and leave the state stale.
+  useEffect(() => {
+    const sections = NAV_LINKS.map((link) =>
+      document.querySelector<HTMLElement>(link.href),
+    ).filter((el): el is HTMLElement => Boolean(el));
+    if (!sections.length) return;
+
+    const update = () => {
+      const line = window.innerHeight * 0.3;
+      let current = "";
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= line) current = `#${section.id}`;
+      }
+      setActive((previous) => (previous === current ? previous : current));
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    window.addEventListener("hashchange", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      window.removeEventListener("hashchange", update);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link href="#top" className="group flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 font-mono text-sm font-bold text-white">
-            AF
-          </span>
-          <span className="text-sm font-semibold tracking-tight text-zinc-100">
-            Arif<span className="text-zinc-500">.dev</span>
-          </span>
+    <header className="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-sm">
+      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-6 px-6">
+        <Link
+          href="#top"
+          className="shrink-0 font-serif text-[17px] leading-none tracking-[-0.01em] text-ink"
+        >
+          {NAME}
         </Link>
 
-        <div className="hidden items-center gap-6 lg:gap-8 md:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-zinc-400 transition-colors hover:text-zinc-100"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
+        <nav aria-label="Sections" className="hidden md:block">
+          <ul className="flex items-center gap-7">
+            {NAV_LINKS.map((link) => {
+              const isActive = active === link.href;
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    aria-current={isActive ? "true" : undefined}
+                    className={`font-mono text-[11px] uppercase tracking-[0.13em] transition-colors ${
+                      isActive ? "text-accent" : "text-muted hover:text-ink"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
-        <a
-          href="https://github.com/ariffaysal"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-indigo-400/50 hover:text-white sm:flex"
+        <div className="flex items-center gap-1">
+          <div className="hidden items-center gap-1 sm:flex">
+            {ICON_LINKS.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex h-8 w-8 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface hover:text-ink"
+              >
+                <Icon className="h-4 w-4" />
+              </a>
+            ))}
+          </div>
+
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-1 hidden items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-[12px] font-medium text-paper transition-opacity hover:opacity-85 sm:flex"
+          >
+            <DocumentIcon className="h-3.5 w-3.5" />
+            Résumé
+          </a>
+
+          <button
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface md:hidden"
+          >
+            {open ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
+          </button>
+        </div>
+      </div>
+
+      {open && (
+        <nav
+          id="mobile-nav"
+          aria-label="Sections"
+          className="border-t border-line bg-paper md:hidden"
         >
-          <GithubIcon className="h-4 w-4" />
-          GitHub
-        </a>
-
-        {/* Mobile: compact nav row */}
-        <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-1 md:hidden">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-xs font-medium text-zinc-400 hover:text-zinc-100"
+          <ul className="mx-auto flex max-w-5xl flex-col px-6 py-2">
+            {NAV_LINKS.map((link) => (
+              <li key={link.href} className="border-b border-line/70 last:border-b-0">
+                <Link
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="block py-3 font-serif text-lg text-ink"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="mx-auto flex max-w-5xl items-center gap-2 px-6 pb-4">
+            {ICON_LINKS.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-full border border-line px-3 py-1.5 text-[12px] text-muted"
+              >
+                <Icon className="h-3.5 w-3.5" />
+                {label}
+              </a>
+            ))}
+            <a
+              href={RESUME_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-auto flex items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-[12px] font-medium text-paper"
             >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </nav>
+              <DocumentIcon className="h-3.5 w-3.5" />
+              Résumé
+            </a>
+          </div>
+        </nav>
+      )}
     </header>
-  );
-}
-
-export function GithubIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.04.77 2.1v3.12c0 .3.21.66.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
-    </svg>
   );
 }

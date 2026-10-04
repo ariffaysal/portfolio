@@ -2,23 +2,32 @@ import type { ReactNode } from "react";
 
 type SectionProps = {
   id: string;
-  eyebrow: string;
+  label: string;
   title: string;
-  subtitle?: string;
+  lede?: string;
   children: ReactNode;
 };
 
-export default function Section({ id, eyebrow, title, subtitle, children }: SectionProps) {
+/**
+ * Editorial section frame: a monospace marker in a narrow left gutter with the
+ * content flowing in a wider right column, separated by a hairline rule.
+ */
+export default function Section({ id, label, title, lede, children }: SectionProps) {
   return (
-    <section id={id} className="scroll-mt-20 border-t border-white/5 py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-6">
-        <p className="mb-3 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-indigo-400">
-          <span className="h-px w-8 bg-indigo-400/50" />
-          {eyebrow}
-        </p>
-        <h2 className="text-2xl font-bold tracking-tight text-zinc-50 sm:text-3xl">{title}</h2>
-        {subtitle && <p className="mt-3 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">{subtitle}</p>}
-        <div className="mt-12">{children}</div>
+    <section id={id} className="scroll-mt-20 border-t border-line">
+      <div className="mx-auto max-w-5xl px-6 py-16 sm:py-20">
+        <div className="grid gap-x-10 gap-y-6 md:grid-cols-[7rem_1fr]">
+          <p className="label pt-2">{label}</p>
+          <div className="min-w-0">
+            <h2 className="font-serif text-[28px] leading-[1.15] tracking-[-0.02em] text-ink sm:text-[34px]">
+              {title}
+            </h2>
+            {lede && (
+              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">{lede}</p>
+            )}
+            <div className="mt-10">{children}</div>
+          </div>
+        </div>
       </div>
     </section>
   );

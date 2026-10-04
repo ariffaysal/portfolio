@@ -1,226 +1,122 @@
 export type Project = {
-  /** GitHub repo name, used to match against the live API */
   id: string;
   title: string;
+  /** Short, factual classifier shown next to the title. */
+  kind: string;
+  year: string;
   description: string;
+  /** Concrete, verifiable capabilities — not marketing copy. */
   highlights: string[];
   stack: string[];
   repoUrl: string;
-  /** Optional live demo URL */
   homepage?: string;
-  /** Extra repo URLs worth linking (e.g. paired frontend/backend repos) */
   relatedLinks?: { label: string; url: string }[];
 };
 
-/** Curated projects — the API enriches these with live fields at build time. */
+/**
+ * Hand-curated and deliberately short. Every entry is deployed or shipped;
+ * nothing here is filler. Content is static so builds are deterministic and
+ * no third-party API (and its rate limits) sits on the critical path.
+ */
 export const PROJECTS: Project[] = [
   {
     id: "gamehub-bd",
-    title: "GameHub BD — Game Currency Marketplace",
+    title: "GameHub BD",
+    kind: "Game currency marketplace",
+    year: "2026",
     description:
-      "Production-grade, Codashop-inspired game top-up marketplace for Bangladesh — buy UC, Diamonds, Points & Gift Cards and pay instantly with bKash, Nagad, Rocket or cards. A full npm-workspaces monorepo, live on Vercel.",
+      "Production marketplace for buying in-game currency and gift cards in Bangladesh, with instant mobile-wallet checkout. Shipped as an npm-workspaces monorepo.",
     highlights: [
-      "Live storefront + admin dashboard + API on Vercel",
-      "bKash / Nagad / Rocket payments with transaction-ID verification",
-      "Real-time order tracking (WebSocket) & admin analytics",
-      "JWT auth + RBAC, Redis + BullMQ queues, CI/CD",
+      "bKash, Nagad and Rocket payments with transaction-ID verification",
+      "Live order tracking over WebSockets and an admin analytics dashboard",
+      "JWT auth with role-based access control at the route and query layer",
+      "Redis + BullMQ job queues, containerised deploys on Vercel",
     ],
-    stack: ["Next.js", "NestJS", "Prisma", "PostgreSQL", "Redis", "BullMQ", "Socket.IO", "Tailwind CSS", "Docker", "GitHub Actions"],
+    stack: ["Next.js", "NestJS", "Prisma", "PostgreSQL", "Redis", "BullMQ", "Socket.IO", "Docker"],
     repoUrl: "https://github.com/ariffaysal/gamehub-bd",
     homepage: "https://gamehub-bd-web.vercel.app",
   },
   {
     id: "connect-social",
-    title: "ConnectSocial — Company-Wide Internal Communication Platform",
+    title: "ConnectSocial",
+    kind: "Internal communications platform",
+    year: "2026",
     description:
-      "An internal social network that lets an entire company communicate in one place. Employees post updates, share images, and collaborate inside department feeds for Marketing, Sales, Engineering, HR, Finance and more — or company-wide for everyone to see. SuperAdmins can monitor all activity with analytics, an audit timeline, and an engagement leaderboard, while clients can join as read-only guests and watch the team's communications. A full-stack, self-hostable Next.js + NestJS monorepo, live on Vercel.",
+      "Company-wide internal network where employees publish to department or company feeds, and clients follow along as read-only guests.",
     highlights: [
-      "Posts, images, comments & reactions — company-wide or per department (Marketing, Sales, Engineering, HR…)",
-      "Clients join as guests with read-only access to follow team communications",
-      "SuperAdmin monitoring: activity timeline, analytics overview & engagement leaderboard",
-      "Real-time notifications over WebSocket + live demo on Vercel",
+      "Posts, images, comments and reactions scoped per department",
+      "SuperAdmin activity timeline, analytics and engagement leaderboard",
+      "Guest accounts with enforced read-only access",
+      "Real-time notifications over WebSockets; self-hostable",
     ],
-    stack: ["Next.js", "NestJS", "TypeORM", "MySQL", "TypeScript", "WebSockets", "JWT", "Tailwind CSS"],
+    stack: ["Next.js", "NestJS", "TypeORM", "MySQL", "WebSockets", "JWT"],
     repoUrl: "https://github.com/ariffaysal/connect-social",
-    homepage: "https://connect-social-five.vercel.app",
   },
   {
     id: "-Suzu-BD",
-    title: "Suzu BD — Footwear E-Commerce",
+    title: "Suzu BD",
+    kind: "Footwear e-commerce",
+    year: "2026",
     description:
-      "Full-stack e-commerce platform with product catalog, cart, COD order flow, admin dashboard, and image uploads. Deployed end-to-end on Vercel with a managed Postgres database.",
+      "Full-stack storefront and admin console for a footwear retailer, running end-to-end in production against a managed Postgres database.",
     highlights: [
-      "Live storefront + API in production",
-      "DB-backed cart with session tracking",
-      "Admin JWT auth + order stats dashboard",
-      "Image uploads to Vercel Blob with magic-byte validation",
+      "Database-backed cart with session tracking and a COD order flow",
+      "Vercel Blob image uploads validated by magic bytes, not file extension",
+      "Admin JWT auth with an order statistics dashboard",
     ],
-    stack: ["NestJS", "Prisma", "PostgreSQL", "Next.js", "Tailwind CSS", "JWT", "Docker", "Vercel"],
+    stack: ["NestJS", "Prisma", "PostgreSQL", "Next.js", "Tailwind CSS", "Docker"],
     repoUrl: "https://github.com/ariffaysal/-Suzu-BD",
     homepage: "https://suzu-bd-web.vercel.app",
   },
   {
     id: "HRattendance",
     title: "HR Attendance System",
+    kind: "HRMS · ZKTeco integration",
+    year: "2026",
     description:
-      "Modern TypeScript rewrite of a legacy PHP HR application — CSV attendance import, statistics, monthly reports, employee CRUD, and real-time punches from ZKTeco biometric devices.",
+      "TypeScript rewrite of a legacy PHP HR platform, now automating employee records, attendance capture and monthly reporting.",
     highlights: [
-      "Legacy PHP → NestJS + Next.js migration",
-      "ZKTeco device integration with live updates",
-      "CSV upload with delimiter auto-detection",
-      "Print-friendly job cards & monthly views",
+      "Live punch ingestion from ZKTeco biometric devices over Socket.IO",
+      "CSV import with automatic delimiter detection and validation",
+      "Print-ready job cards and month-end reports for payroll",
     ],
-    stack: ["NestJS", "PostgreSQL", "Next.js", "Socket.IO", "ZKTeco", "Docker"],
+    stack: ["NestJS", "PostgreSQL", "Next.js", "Socket.IO", "Docker"],
     repoUrl: "https://github.com/ariffaysal/HRattendance",
   },
   {
-    id: "RBMS_TASK",
-    title: "RBMS — Role-Based Management System",
-    description:
-      "Authentication and authorization demo with four roles — SuperAdmin, Moderator, RegularUser, Guest — each with guarded API routes and UI.",
-    highlights: [
-      "JWT auth with role-based access control",
-      "Permission-guarded API + client views",
-      "Seed demo accounts for every role",
-    ],
-    stack: ["NestJS", "JWT", "Next.js", "Tailwind CSS"],
-    repoUrl: "https://github.com/ariffaysal/RBMS_TASK",
-  },
-  {
-    id: "job-board",
-    title: "Job Board",
-    description:
-      "Full-stack job listings platform — employers post roles and candidates browse, search, and apply, with a Next.js client and a NestJS API deployed on Vercel.",
-    highlights: [
-      "Separate client + API codebases",
-      "Deployed live on Vercel",
-      "Responsive job listing UI",
-    ],
-    stack: ["NestJS", "Next.js", "TypeScript", "Vercel"],
-    repoUrl: "https://github.com/ariffaysal/job-board",
-    homepage: "https://job-board-eosin-rho.vercel.app",
-  },
-  {
     id: "notice-board-for-get-asap-notified-by-whatsapp-backend",
-    title: "Notice Board + WhatsApp Alerts",
+    title: "WhatsApp Notice Board",
+    kind: "Automated notifications",
+    year: "2026",
     description:
-      "Notice management system that notifies subscribers on WhatsApp the moment a new notice is published — NestJS API with a Next.js admin client.",
+      "Notice management system that pushes published notices to subscriber groups on WhatsApp the moment they go live.",
     highlights: [
-      "Instant WhatsApp notification on publish",
-      "Admin notice CRUD with preview",
-      "Separate API + client repositories",
+      "Automated broadcast with real-time group synchronisation",
+      "Documented REST API and an admin console with preview",
+      "Relational schema tuned for high message volume",
     ],
-    stack: ["NestJS", "Next.js", "WhatsApp API", "TypeScript"],
+    stack: ["NestJS", "Next.js", "WhatsApp API", "PostgreSQL"],
     repoUrl: "https://github.com/ariffaysal/notice-board-for-get-asap-notified-by-whatsapp-backend",
     relatedLinks: [
       {
-        label: "Frontend repo",
+        label: "Frontend",
         url: "https://github.com/ariffaysal/ariffaysal-notice-board-for-get-asap-notified-by-whatsapp-frontend",
       },
     ],
   },
   {
-    id: "whatsapp-project",
-    title: "WhatsApp Full-Stack Project",
+    id: "job-board",
+    title: "Job Board",
+    kind: "Listings platform",
+    year: "2025",
     description:
-      "Early-stage WhatsApp-integrated application — a TypeScript monorepo pairing a backend API with a web client.",
-    highlights: ["TypeScript monorepo", "Backend + frontend pair", "WhatsApp integration focus"],
-    stack: ["TypeScript", "Node.js", "REST API"],
-    repoUrl: "https://github.com/ariffaysal/whatsapp-project",
+      "Two-codebase job platform with a Next.js client over an independently deployed NestJS API.",
+    highlights: [
+      "Employer posting flow plus candidate search and application",
+      "Separate client and API deployments on Vercel",
+    ],
+    stack: ["NestJS", "Next.js", "TypeScript"],
+    repoUrl: "https://github.com/ariffaysal/job-board",
+    homepage: "https://job-board-eosin-rho.vercel.app",
   },
 ];
-
-export type GitHubRepo = {
-  name: string;
-  description: string | null;
-  language: string | null;
-  stargazers_count: number;
-  forks_count: number;
-  pushed_at: string;
-  homepage: string | null;
-  topics: string[];
-  archived: boolean;
-  fork: boolean;
-};
-
-async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
-  const res = await fetch("https://api.github.com/users/ariffaysal/repos?per_page=100&sort=updated", {
-    headers: { Accept: "application/vnd.github+json" },
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) throw new Error(`GitHub API responded ${res.status}`);
-  return (await res.json()) as GitHubRepo[];
-}
-
-async function fetchGitHubRepo(name: string): Promise<GitHubRepo | null> {
-  try {
-    const res = await fetch(`https://api.github.com/repos/ariffaysal/${name}`, {
-      headers: { Accept: "application/vnd.github+json" },
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as GitHubRepo;
-  } catch {
-    return null;
-  }
-}
-
-export type EnrichedProject = Project & {
-  stars: number;
-  forks: number;
-  language: string;
-  lastUpdated: string;
-  apiDescription: string | null;
-};
-
-function formatDate(iso: string): string {
-  try {
-    return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "short" });
-  } catch {
-    return iso;
-  }
-}
-
-/**
- * Merges the curated project list with live data from the GitHub API.
- * Falls back to curated data if the API is unreachable (e.g. offline builds).
- */
-export async function getProjects(): Promise<EnrichedProject[]> {
-  const fallback: EnrichedProject[] = PROJECTS.map((p) => ({
-    ...p,
-    stars: 0,
-    forks: 0,
-    language: "TypeScript",
-    lastUpdated: "2026",
-    apiDescription: null,
-  }));
-
-  try {
-    const repos = await fetchGitHubRepos();
-    const byName = new Map(repos.map((r) => [r.name, r]));
-
-    // The list endpoint occasionally serves a stale response missing newer
-    // repos (e.g. gamehub-bd). Fill any gaps with per-repo fetches so the
-    // curated cards always carry live data.
-    const missing = PROJECTS.filter((p) => !byName.has(p.id));
-    for (const project of missing) {
-      const repo = await fetchGitHubRepo(project.id);
-      if (repo) byName.set(project.id, repo);
-    }
-
-    return PROJECTS.map((p) => {
-      const repo = byName.get(p.id);
-      if (!repo) return fallback.find((f) => f.id === p.id)!;
-      return {
-        ...p,
-        stars: repo.stargazers_count,
-        forks: repo.forks_count,
-        language: repo.language ?? "TypeScript",
-        lastUpdated: formatDate(repo.pushed_at),
-        apiDescription: repo.description,
-      };
-    });
-  } catch {
-    return fallback;
-  }
-}

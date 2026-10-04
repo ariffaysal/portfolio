@@ -1,113 +1,71 @@
-import About from "@/components/about";
+import Background from "@/components/background";
 import Contact from "@/components/contact";
-import Education from "@/components/education";
 import Experience from "@/components/experience";
-import FloatingStacks from "@/components/floating-stacks";
 import Hero from "@/components/hero";
-import Keyboard3D from "@/components/keyboard3d";
 import Projects from "@/components/projects";
 import Publications from "@/components/publications";
-import Reveal from "@/components/reveal";
 import Section from "@/components/section";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import Stack from "@/components/stack";
-import ThreeBackground from "@/components/three-background";
-import { getProjects } from "@/lib/projects";
+import { PROJECTS } from "@/lib/projects";
 
-// Rebuild hourly so GitHub project data stays fresh (fetches are no-store).
-export const revalidate = 3600;
-
-export default async function Home() {
-  const projects = await getProjects();
-
+export default function Home() {
   return (
     <>
-      <ThreeBackground />
       <SiteHeader />
       <main>
         <Hero />
 
-        {/* Interactive floating stack strip */}
-        <div className="py-16">
-          <FloatingStacks />
-        </div>
-
         <Section
-          id="projects"
-          eyebrow="01 · Featured Work"
-          title="Projects I've Built"
-          subtitle="Real products I've taken from an idea to a working, deployed application."
+          id="work"
+          label="Selected work"
+          title="Systems I've designed, built and shipped."
+          lede="Production applications rather than exercises — each one deployed, with the parts that were hard to get right called out."
         >
-          <Projects projects={projects} />
-        </Section>
-
-        <Section
-          id="stack"
-          eyebrow="02 · Toolbox"
-          title="My Tech Stack"
-          subtitle="The languages, frameworks, and tools I use across web development and machine learning."
-        >
-          <Stack />
-        </Section>
-
-        <Section
-          id="playground"
-          eyebrow="03 · Playground"
-          title="Try the 3D Keyboard"
-          subtitle="A real, working keyboard rendered in pure CSS 3D. Type a message and press Send ↵ to deliver it straight to my WhatsApp."
-        >
-          <Keyboard3D />
+          <Projects projects={PROJECTS} />
         </Section>
 
         <Section
           id="experience"
-          eyebrow="04 · Career"
-          title="Experience & Projects"
-          subtitle="My career so far — work, research, and the projects that shaped how I build software."
+          label="Experience"
+          title="Where I've worked."
+          lede="Four years of writing code, two of them shipping it into production for real users."
         >
           <Experience />
         </Section>
 
         <Section
           id="research"
-          eyebrow="05 · Research"
-          title="Research & Publications"
-          subtitle="Published research in deep learning for financial time-series forecasting."
+          label="Research"
+          title="Applied machine learning, peer reviewed."
+          lede="Deep learning for financial forecasting and early defect prediction — with the interpretability work that makes the results usable."
         >
           <Publications />
         </Section>
 
-        <Section
-          id="education"
-          eyebrow="06 · Education"
-          title="Education"
-          subtitle="My academic background in computer science."
-        >
-          <Education />
+        <Section id="toolkit" label="Toolkit" title="What I work with.">
+          <Stack />
         </Section>
 
         <Section
-          id="about"
-          eyebrow="07 · About Me"
-          title="How I Work"
-          subtitle="A few things that define how I approach building software."
+          id="background"
+          label="Background"
+          title="Education and how I work."
         >
-          <About />
+          <Background />
         </Section>
 
         <Section
           id="contact"
-          eyebrow="08 · Contact"
-          title="Let's Build Something"
-          subtitle="Open to freelance projects, collaborations, and full-time roles. Reach out any time."
+          label="Contact"
+          title="Open to full-time roles and freelance work."
+          lede="Based in Dhaka, working remotely with teams in any timezone. The fastest route is email."
         >
           <Contact />
         </Section>
       </main>
-      <Reveal>
-        <SiteFooter />
-      </Reveal>
+      <SiteFooter />
     </>
   );
 }
