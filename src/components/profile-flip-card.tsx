@@ -53,8 +53,8 @@ export default function ProfileFlipCard() {
         </span>
 
         <span className="profile-flip-face profile-flip-back" aria-hidden={!isFlipped}>
-          <span className="label">Technical Skills</span>
-          <span className="mt-3 grid grid-cols-2 gap-1.5 sm:gap-2">
+          <span className="label">My Stack</span>
+          <span className="mt-3 grid grid-cols-3 gap-1 sm:gap-1.5">
             {SKILLS.map((skill) => (
               <span key={skill} className="skill-chip">
                 {skill}
