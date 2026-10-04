@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
-import Image from "next/image";
 import { DocumentIcon, GithubIcon, LinkedinIcon, MailIcon } from "./icons";
+import ProfileFlipCard from "./profile-flip-card";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL, LOCATION, RESUME_URL } from "@/lib/contact";
 
 /** Stagger for the night-theme entrance; the day theme ignores the value. */
@@ -103,19 +103,7 @@ export default function Hero() {
           </div>
 
           <figure data-reveal style={revealDelay(160)} className="min-w-0">
-            {/* The ring itself is dark-mode only; see .rgb-frame in globals.css. */}
-            <div className="rgb-frame relative aspect-[4/5] w-full rounded-sm bg-surface">
-              <div className="absolute inset-0 overflow-hidden rounded-sm">
-                <Image
-                  src="/profile-photo.jpg"
-                  alt="MD Arif Foysal presenting his IEEE publication at the QPAIN 2026 conference"
-                  fill
-                  priority
-                  sizes="(min-width: 768px) 15rem, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            </div>
+            <ProfileFlipCard />
             <figcaption className="mt-3 font-mono text-[11px] leading-relaxed text-muted">
               Presenting the QPAIN 2026 paper, IEEE Conference Proceedings.
             </figcaption>
