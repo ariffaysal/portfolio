@@ -59,8 +59,8 @@ export default function Home() {
         <Section
           id="contact"
           label="Contact"
-          title="Open to full-time roles and freelance work."
-          lede="Based in Dhaka, working remotely with teams in any timezone. The fastest route is email."
+          title="Open to full-time roles and freelance engagements."
+          lede="Based in Dhaka, Bangladesh, and available to work remotely with teams in any timezone."
         >
           <Contact />
         </Section>
