@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CloseIcon, DocumentIcon, GithubIcon, LinkedinIcon, MenuIcon } from "./icons";
+import ThemeToggle from "./theme-toggle";
 import { GITHUB_URL, LINKEDIN_URL, NAME, RESUME_URL } from "@/lib/contact";
 
 const NAV_LINKS = [
@@ -91,7 +92,7 @@ export default function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           <div className="hidden items-center gap-1 sm:flex">
             {ICON_LINKS.map(({ label, href, Icon }) => (
               <a
@@ -107,11 +108,13 @@ export default function SiteHeader() {
             ))}
           </div>
 
+          <ThemeToggle />
+
           <a
             href={RESUME_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-1 hidden items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-[12px] font-medium text-paper transition-opacity hover:opacity-85 sm:flex"
+            className="hidden items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-[12px] font-medium text-paper transition-opacity hover:opacity-85 sm:flex"
           >
             <DocumentIcon className="h-3.5 w-3.5" />
             Résumé

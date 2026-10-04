@@ -25,7 +25,7 @@ const serif = Newsreader({
 const description = `${ROLE} in ${LOCATION}. I build production web systems with NestJS, Next.js and PostgreSQL, and published IEEE research in applied deep learning.`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ariffaysal.vercel.app"),
+  metadataBase: new URL("https://portfolio-ariffaysal-001.vercel.app"),
   title: `${NAME} — ${ROLE}`,
   description,
   keywords: [
@@ -58,9 +58,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${sans.variable} ${mono.variable} ${serif.variable} h-full antialiased`}
     >
-      <body className="min-h-full font-sans">{children}</body>
+      <body className="min-h-full font-sans">
+        {/* Runs before first paint so the stored theme never flashes. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{if(localStorage.getItem('theme')==='night'){document.documentElement.dataset.theme='dark'}}catch(e){}})();",
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

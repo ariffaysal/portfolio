@@ -59,7 +59,7 @@ export default function Home() {
         <Section
           id="contact"
           label="Contact"
-          title="Open to full-time roles and freelance engagements."
+          title="Open to full-time software engineering roles."
           lede="Based in Dhaka, Bangladesh, and available to work remotely with teams in any timezone."
         >
           <Contact />

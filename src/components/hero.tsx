@@ -10,14 +10,17 @@ const FACTS = [
 
 export default function Hero() {
   return (
-    <section id="top" className="border-b border-line">
-      <div className="mx-auto max-w-5xl px-6 pb-14 pt-14 sm:pb-16 sm:pt-20">
+    <section id="top" className="relative isolate overflow-hidden border-b border-line">
+      {/* Only rendered by the night theme; the day theme stays completely still. */}
+      <div aria-hidden="true" className="ambient pointer-events-none absolute inset-0 -z-10" />
+
+      <div className="relative mx-auto max-w-5xl px-6 pb-14 pt-14 sm:pb-16 sm:pt-20">
         <div className="grid gap-12 md:grid-cols-[1fr_15rem] md:gap-14">
           <div className="min-w-0">
             <p className="label flex flex-wrap items-center gap-x-3 gap-y-2">
               <span className="inline-flex items-center gap-2">
                 <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                  <span className="ping-ring absolute inline-flex h-full w-full rounded-full bg-accent" />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
                 </span>
                 Available for full-time roles
