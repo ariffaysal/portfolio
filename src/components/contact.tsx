@@ -2,6 +2,7 @@ import { ArrowUpRight } from "./icons";
 import {
   EMAIL,
   GITHUB_URL,
+  LINKEDIN_HANDLE,
   LINKEDIN_URL,
   LOCATION,
   RESUME_URL,
@@ -18,7 +19,7 @@ type Channel = {
 
 const CHANNELS: Channel[] = [
   { term: "Email", value: EMAIL, href: `mailto:${EMAIL}` },
-  { term: "LinkedIn", value: "linkedin.com/in/ariffaysal", href: LINKEDIN_URL },
+  { term: "LinkedIn", value: `linkedin.com/in/${LINKEDIN_HANDLE}`, href: LINKEDIN_URL },
   { term: "GitHub", value: "github.com/ariffaysal", href: GITHUB_URL },
   { term: "WhatsApp", value: WHATSAPP_DISPLAY, href: whatsappUrl() },
   { term: "Résumé", value: "MD-Arif-Foysal-CV.pdf", href: RESUME_URL },

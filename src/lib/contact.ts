@@ -5,8 +5,8 @@ export const LOCATION = "Dhaka, Bangladesh";
 export const EMAIL = "ariffaysal001@gmail.com";
 export const GITHUB_URL = "https://github.com/ariffaysal";
 export const GITHUB_HANDLE = "ariffaysal";
-export const LINKEDIN_URL = "https://www.linkedin.com/in/md-arif-foysal-9516a8407";
-export const LINKEDIN_HANDLE = "md-arif-foysal";
+export const LINKEDIN_URL = "https://www.linkedin.com/in/ariffaysal";
+export const LINKEDIN_HANDLE = "ariffaysal";
 export const RESUME_URL = "/MD-Arif-Foysal-CV.pdf";
 
 export const WHATSAPP_NUMBER = "8801935910948";
