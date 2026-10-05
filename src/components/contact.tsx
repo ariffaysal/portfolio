@@ -18,7 +18,7 @@ type Channel = {
 
 const CHANNELS: Channel[] = [
   { term: "Email", value: EMAIL, href: `mailto:${EMAIL}` },
-  { term: "LinkedIn", value: "linkedin.com/in/md-arif-foysal-9516a8407", href: LINKEDIN_URL },
+  { term: "LinkedIn", value: "linkedin.com/in/ariffaysal", href: LINKEDIN_URL },
   { term: "GitHub", value: "github.com/ariffaysal", href: GITHUB_URL },
   { term: "WhatsApp", value: WHATSAPP_DISPLAY, href: whatsappUrl() },
   { term: "Résumé", value: "MD-Arif-Foysal-CV.pdf", href: RESUME_URL },
