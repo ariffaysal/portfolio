@@ -9,9 +9,14 @@ import Section from "@/components/section";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import Stack from "@/components/stack";
+import { fetchContributions } from "@/lib/github-activity";
 import { PROJECTS } from "@/lib/projects";
 
-export default function Home() {
+export default async function Home() {
+  // Read once per revalidation window on the server, so both themes get the
+  // same year without a request from the browser.
+  const contributions = await fetchContributions();
+
   return (
     <>
       <SiteHeader />
@@ -58,7 +63,7 @@ export default function Home() {
         </Section>
 
         {/* Night theme only — renders nothing in the day theme. */}
-        <NightActivity />
+        <NightActivity days={contributions} />
 
         <Section
           id="contact"

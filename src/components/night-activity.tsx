@@ -1,8 +1,9 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import ContributionSkyline from "@/components/ui/contribution-skyline";
+import ContributionSkyline, { type ContributionDay } from "@/components/ui/contribution-skyline";
 import Section from "@/components/section";
+import { GITHUB_HANDLE, GITHUB_URL } from "@/lib/contact";
 
 /**
  * Night-only activity skyline.
@@ -37,7 +38,7 @@ function getServerSnapshot(): boolean {
   return false;
 }
 
-export default function NightActivity() {
+export default function NightActivity({ days }: { days?: ContributionDay[] }) {
   const isNight = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   if (!isNight) return null;
 
@@ -46,17 +47,24 @@ export default function NightActivity() {
       id="activity"
       label="Activity"
       title="A year of work, folded into a skyline."
-      lede="Every day of the last year is a box — flat as a heat map, or stood up into a skyline you can drag to orbit. It only appears after dark."
+      lede="Every day of the last year on GitHub — flat as a heat map, or stood up into a skyline you can drag to orbit. It only appears after dark."
     >
-      {/*
-        No `data` prop yet, so the chart draws its own generated sample year.
-        Pass real days as `data={[{ date: "2026-01-04", count: 4 }, …]}` — repeated
-        dates add up — and the note below comes out.
-      */}
-      <ContributionSkyline palette="ember" />
+      {/* `days` is read from GitHub on the server; without it the chart draws
+          its own generated year, which the note below owns up to. */}
+      <ContributionSkyline palette="ember" data={days} />
 
       <p className="mt-5 font-mono text-[11px] leading-relaxed text-muted">
-        Sample data · wire a real activity feed into the data prop to make these counts live
+        {days ? (
+          <>
+            Live from{" "}
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="link">
+              github.com/{GITHUB_HANDLE}
+            </a>{" "}
+            · refreshed hourly
+          </>
+        ) : (
+          "Sample data · GitHub could not be read, so these counts are generated"
+        )}
       </p>
     </Section>
   );
