@@ -21,7 +21,7 @@ export default function NightMotion() {
   useEffect(() => {
     const root = document.documentElement;
     const progress = progressRef.current;
-    const targets = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    let targets = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
 
     // Tells the bootstrap script's watchdog that the app took over, so the
     // motion gate stays armed instead of being dropped for safety.
@@ -69,6 +69,16 @@ export default function NightMotion() {
       frame = window.requestAnimationFrame(paint);
     };
 
+    // Sections can mount after this effect runs — the night-only ones do
+    // exactly that, once the stored theme resolves — so the list is re-collected
+    // whenever the document gains nodes rather than frozen at mount. Watching
+    // childList only (never attributes) keeps a reveal from re-triggering itself.
+    const domObserver = new MutationObserver(() => {
+      targets = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+      schedule();
+    });
+    domObserver.observe(document.body, { childList: true, subtree: true });
+
     // The bootstrap script has already set the attribute for a stored night
     // theme; this covers the toggle, other tabs, and the initial measurement.
     const themeObserver = new MutationObserver(schedule);
@@ -81,6 +91,7 @@ export default function NightMotion() {
     return () => {
       delete root.dataset.motionReady;
       if (frame) window.cancelAnimationFrame(frame);
+      domObserver.disconnect();
       themeObserver.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);

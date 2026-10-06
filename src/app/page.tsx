@@ -2,6 +2,7 @@ import Background from "@/components/background";
 import Contact from "@/components/contact";
 import Experience from "@/components/experience";
 import Hero from "@/components/hero";
+import NightActivity from "@/components/night-activity";
 import Projects from "@/components/projects";
 import Publications from "@/components/publications";
 import Section from "@/components/section";
@@ -55,6 +56,9 @@ export default function Home() {
         >
           <Background />
         </Section>
+
+        {/* Night theme only — renders nothing in the day theme. */}
+        <NightActivity />
 
         <Section
           id="contact"
