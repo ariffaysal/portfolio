@@ -4,11 +4,10 @@ import { useState } from 'react';
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat();
 
   return (
     <div className="fixed bottom-6 right-6 z-50 font-sans">
-      {/* Floating Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
@@ -18,7 +17,6 @@ export default function ChatBot() {
         </button>
       )}
 
-      {/* Chat Window */}
       {isOpen && (
         <div className="bg-zinc-900 border border-zinc-800 w-80 h-96 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-zinc-200">
           <div className="bg-zinc-800 p-3 flex justify-between items-center border-b border-zinc-700">
@@ -29,6 +27,11 @@ export default function ChatBot() {
           <div className="flex-1 overflow-y-auto p-4 space-y-4 text-sm">
             {messages.length === 0 && (
               <p className="text-zinc-500 text-center mt-10 italic">Ask me about Arif's experience, stack, or how to contact him!</p>
+            )}
+            {error && (
+              <div className="bg-red-900/20 border border-red-900 text-red-400 p-2 rounded text-xs text-center">
+                Something went wrong. Please try again.
+              </div>
             )}
             {messages.map(m => (
               <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
