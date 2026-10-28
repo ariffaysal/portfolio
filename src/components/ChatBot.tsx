@@ -152,7 +152,7 @@ export default function ChatBot() {
           </div>
           <div className="min-w-0 flex-1">
             <h2 className="truncate text-sm font-semibold text-zinc-100">Arif's assistant</h2>
-            <p className="truncate text-xs text-zinc-400">Answers from his CV and projects</p>
+            <p className="truncate text-xs text-zinc-400">Answers from Arif's Sideview </p>
           </div>
           <button
             onClick={() => setIsOpen(false)}
