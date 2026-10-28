@@ -9,7 +9,7 @@ export default function ChatBot() {
 
   const isLoading = status === 'submitted' || status === 'streaming';
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
     sendMessage({ text: input });
@@ -52,14 +52,10 @@ export default function ChatBot() {
             ))}
 
             {isLoading && <div className="text-xs text-zinc-500 animate-pulse">Typing...</div>}
-            {error && (
-              <div className="text-xs text-red-400">
-                {error.message || 'Something went wrong. Try again.'}
-              </div>
-            )}
+            {error && <div className="text-xs text-red-400">Something went wrong. Try again.</div>}
           </div>
 
-          <form onSubmit={onFormSubmit} className="p-3 bg-zinc-800 border-t border-zinc-700 flex gap-2">
+          <form onSubmit={handleSubmit} className="p-3 bg-zinc-800 border-t border-zinc-700 flex gap-2">
             <input
               value={input}
               onChange={e => setInput(e.target.value)}
