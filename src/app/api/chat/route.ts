@@ -1,9 +1,8 @@
-import { createOpenAI } from '@ai-sdk/openai';
-import { streamText } from 'ai';
+import { createGroq } from '@ai-sdk/groq';
+import { streamText, convertToModelMessages } from 'ai';
 import { getAIContextString } from '@/lib/ai-context';
 
-const groq = createOpenAI({
-  baseURL: 'https://api.groq.com/openai/v1',
+const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
@@ -11,16 +10,16 @@ export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
 
-    const result = await streamText({
+    const result = streamText({
       model: groq('llama-3.3-70b-versatile'),
-      system: getAIContextString(),
-      messages,
+      instructions: getAIContextString(),
+      messages: await convertToModelMessages(messages),
     });
 
-    return result.toDataStreamResponse();
+    return result.toUIMessageStreamResponse();
   } catch (error) {
-    console.error("AI Chat Error:", error);
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+    console.error('AI Chat Error:', error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
