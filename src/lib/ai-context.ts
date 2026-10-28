@@ -19,8 +19,8 @@ export const PORTFOLIO_CONTEXT = {
     email: "ariffaysal001@gmail.com",
     whatsapp: "+880-1935910948",
     github: "https://github.com/ariffaysal",
-    linkedin: "", // OPTIONAL: add your LinkedIn URL, e.g. "https://linkedin.com/in/your-profile"
-    portfolio: "", // OPTIONAL: add your portfolio URL
+    linkedin: "https://linkedin.com/in/ariffaysal", 
+    portfolio: "https://ariffaysal.vercel.app/", 
     ieeePaper: "https://doi.org/10.1109/QPAIN69676.2026.11545577",
   },
 
