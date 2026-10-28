@@ -11,6 +11,8 @@ import SiteHeader from "@/components/site-header";
 import Stack from "@/components/stack";
 import { fetchContributions } from "@/lib/github-activity";
 import { PROJECTS } from "@/lib/projects";
+import ChatBot from "@/components/ChatBot";
+
 
 export default async function Home() {
   // Read once per revalidation window on the server, so both themes get the
@@ -75,6 +77,7 @@ export default async function Home() {
         </Section>
       </main>
       <SiteFooter />
+      <ChatBot />
     </>
   );
 }
