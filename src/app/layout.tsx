@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Newsreader } from "next/font/google";
+import { IBM_Plex_Sans, JetBrains_Mono, Newsreader } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import NightBackground from "@/components/night-background";
-import NightMotion from "@/components/night-motion";
 import { NAME, ROLE, LOCATION } from "@/lib/contact";
 
-const sans = Geist({
-  variable: "--font-geist-sans",
+const sans = IBM_Plex_Sans({
+  variable: "--font-ibm-plex-sans",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
-const mono = Geist_Mono({
-  variable: "--font-geist-mono",
+const mono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -65,18 +66,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full font-sans">
         {/*
-          Runs before first paint so the stored theme never flashes, and so the
-          night-only motion layer is armed in the same frame the dark palette
-          lands. Day visitors are untouched by both.
+          Runs before first paint so the stored theme never flashes.
         */}
-        <script
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{if(localStorage.getItem('theme')==='night'){var d=document.documentElement;d.dataset.theme='dark';d.dataset.motion='on';setTimeout(function(){if(!d.dataset.motionReady){d.removeAttribute('data-motion')}},2500)}}catch(e){}})();",
+              "(function(){try{if(localStorage.getItem('theme')==='night'){var d=document.documentElement;d.dataset.theme='dark';}}catch(e){}})();",
           }}
         />
         <NightBackground />
-        <NightMotion />
         {children}
       </body>
     </html>

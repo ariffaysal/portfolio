@@ -26,8 +26,16 @@ function getServerSnapshot(): boolean {
   return false;
 }
 
-export default function ThemeToggle() {
+export function useTheme() {
   const isNight = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return {
+    theme: isNight ? "night" : "day",
+    isNight,
+  };
+}
+
+export default function ThemeToggle() {
+  const { isNight } = useTheme();
 
   const toggle = useCallback(() => {
     const root = document.documentElement;
@@ -35,12 +43,8 @@ export default function ThemeToggle() {
 
     if (next === "night") {
       root.dataset.theme = "dark";
-      // Arm the night-only motion layer in the same synchronous step as the
-      // palette swap, so the day theme never inherits a half-applied state.
-      root.dataset.motion = "on";
     } else {
       delete root.dataset.theme;
-      delete root.dataset.motion;
     }
 
     try {

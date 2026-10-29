@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { motion } from "motion/react";
 
 const SKILLS = [
   "TypeScript",
@@ -33,15 +34,23 @@ export default function ProfileFlipCard() {
   return (
     <button
       type="button"
-      data-flipped={isFlipped}
       onClick={() => setIsFlipped((current) => !current)}
       aria-pressed={isFlipped}
       aria-label={isFlipped ? "Show profile photo" : "Show technical skills"}
       title={isFlipped ? "Show photo" : "Show skills"}
       className="profile-flip-card rgb-frame relative aspect-[4/5] w-full rounded-sm bg-surface text-left"
     >
-      <span className="profile-flip-card-inner">
-        <span className="profile-flip-face profile-flip-front">
+      <motion.div
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{
+          type: "spring",
+          stiffness: 120,
+          damping: 15,
+        }}
+        style={{ transformStyle: "preserve-3d" }}
+        className="relative h-full w-full"
+      >
+        <span className="profile-flip-face profile-flip-front absolute inset-0">
           <Image
             src="/profile-photo.jpg"
             alt="MD Arif Foysal presenting his IEEE publication at the QPAIN 2026 conference"
@@ -52,7 +61,11 @@ export default function ProfileFlipCard() {
           />
         </span>
 
-        <span className="profile-flip-face profile-flip-back" aria-hidden={!isFlipped}>
+        <span
+          className="profile-flip-face profile-flip-back absolute inset-0"
+          aria-hidden={!isFlipped}
+          style={{ transform: "rotateY(180deg)" }}
+        >
           <span className="label">My Stack</span>
           <span className="mt-3 grid grid-cols-3 gap-1 sm:gap-1.5">
             {SKILLS.map((skill) => (
@@ -62,7 +75,7 @@ export default function ProfileFlipCard() {
             ))}
           </span>
         </span>
-      </span>
+      </motion.div>
     </button>
   );
 }
