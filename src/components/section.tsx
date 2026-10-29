@@ -15,8 +15,8 @@ type SectionProps = {
 export default function Section({ id, label, title, lede, children }: SectionProps) {
   return (
     <section id={id} className="scroll-mt-20 border-t border-line">
-      <div className="mx-auto max-w-5xl px-6 py-16 sm:py-20">
-        <div className="grid gap-x-10 gap-y-6 md:grid-cols-[7rem_1fr]">
+      <div className="mx-auto max-w-5xl px-6 py-24 sm:py-32">
+        <div className="grid gap-x-10 gap-y-6 md:grid-cols-[8rem_1fr]">
           <p data-reveal className="label pt-2">
             {label}
           </p>
@@ -32,7 +32,7 @@ export default function Section({ id, label, title, lede, children }: SectionPro
                 {lede}
               </p>
             )}
-            <div data-reveal className="mt-10">
+            <div data-reveal className="mt-12">
               {children}
             </div>
           </div>

@@ -3,7 +3,7 @@ import { ArrowUpRight } from "./icons";
 
 function ProjectRow({ project, index }: { project: Project; index: number }) {
   return (
-    <article className="grid gap-x-8 gap-y-3 border-b border-line py-8 sm:grid-cols-[2.5rem_1fr]">
+    <article className="group grid gap-x-8 gap-y-3 border-b border-line py-8 transition-colors duration-300 sm:grid-cols-[2.5rem_1fr] hover:bg-surface dark:hover:bg-accent-soft/30">
       <p className="label pt-2 tabular-nums">{String(index + 1).padStart(2, "0")}</p>
 
       <div className="min-w-0">
@@ -12,7 +12,7 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
             {project.title}
           </h3>
           <p className="text-[13px] text-muted">{project.kind}</p>
-          <p className="label ml-auto tabular-nums">{project.year}</p>
+          <p className="label ml-auto tabular-nums font-bold">{project.year}</p>
         </div>
 
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">
@@ -31,9 +31,16 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
         </ul>
 
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono text-[11px] leading-relaxed tracking-wide text-muted">
-            {project.stack.join("  ·  ")}
-          </p>
+          <div className="flex flex-wrap gap-2">
+            {project.stack.map((tech) => (
+              <span
+                key={tech}
+                className="font-mono text-[10px] px-1.5 py-0.5 rounded border border-line bg-surface text-muted tracking-wider"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
 
           <div className="flex shrink-0 items-center gap-4">
             {project.homepage && (
