@@ -21,6 +21,19 @@ const FALLBACK_POOL = [
   'How can I contact him?',
 ];
 
+const FUNNY_MESSAGES = [
+  "Hold up! My API wallet is sweating. Let me catch my breath for 5 seconds! 💸",
+  "Whoa there, speed racer! I need a quick coffee break to keep these bills low. ☕",
+  "You're too fast for me! Give me 5 seconds to negotiate with the API gods. ⚡",
+  "API bills are creeping up! Take a peek at my projects while I recharge. 🔋",
+  "System overload! I'm currently meditating on how to save Arif some money. 🧘‍♂️",
+  "Wait a sec! My brain is buffering the costs. Explore the portfolio for a bit! 🌀",
+];
+
+// Rate limit settings
+const FREE_MESSAGES = 2; // messages allowed before a cooldown
+const COOLDOWN_SECONDS = 5;
+
 // The model ends each reply with: [[suggestions: Q1 | Q2 | Q3]]
 // Hide that line from the bubble (even while it is still streaming) and extract the questions.
 function parseReply(raw: string) {
@@ -68,6 +81,11 @@ function renderWithLinks(text: string) {
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
+  const [messageCount, setMessageCount] = useState(0);
+  const [isRateLimited, setIsRateLimited] = useState(false);
+  const [cooldownTimer, setCooldownTimer] = useState(COOLDOWN_SECONDS);
+  const [funnyMsg, setFunnyMsg] = useState('');
+  const [pendingText, setPendingText] = useState<string | null>(null);
   const { messages, sendMessage, regenerate, status, error } = useChat();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -104,14 +122,51 @@ export default function ChatBot() {
     return () => clearTimeout(t);
   }, [isOpen]);
 
+  // Tick the countdown while rate limited (cleans up properly on unmount).
+  useEffect(() => {
+    if (!isRateLimited) return;
+    const id = setInterval(() => setCooldownTimer(prev => prev - 1), 1000);
+    return () => clearInterval(id);
+  }, [isRateLimited]);
+
+  // When the countdown ends: unlock, reset the counter, send the held question.
+  useEffect(() => {
+    if (!isRateLimited || cooldownTimer > 0) return;
+    setIsRateLimited(false);
+    if (pendingText) {
+      sendMessage({ text: pendingText });
+      setPendingText(null);
+      setMessageCount(1); // the held message counts as the first of the next batch
+    } else {
+      setMessageCount(0);
+    }
+  }, [cooldownTimer, isRateLimited, pendingText, sendMessage]);
+
+  // Refocus the input once the cooldown is over.
+  useEffect(() => {
+    if (!isRateLimited && isOpen) inputRef.current?.focus();
+  }, [isRateLimited, isOpen]);
+
   const send = (text: string) => {
     const trimmed = text.trim();
-    if (!trimmed || isBusy) return;
+    if (!trimmed || isBusy || isRateLimited) return;
+
+    // After the free messages: hold this question and start the cooldown.
+    if (messageCount >= FREE_MESSAGES) {
+      setPendingText(trimmed);
+      setCooldownTimer(COOLDOWN_SECONDS);
+      setFunnyMsg(FUNNY_MESSAGES[Math.floor(Math.random() * FUNNY_MESSAGES.length)]);
+      setIsRateLimited(true);
+      return;
+    }
+
     sendMessage({ text: trimmed });
+    setMessageCount(prev => prev + 1);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!input.trim() || isBusy || isRateLimited) return;
     send(input);
     setInput('');
   };
@@ -169,8 +224,32 @@ export default function ChatBot() {
         <div
           role="log"
           aria-live="polite"
-          className="flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4 text-sm"
+          className="relative flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4 text-sm"
         >
+          {/* Rate Limit Overlay */}
+          {isRateLimited && (
+            <div className="fixed inset-0 z-[60] flex items-center justify-center pointer-events-none">
+              <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-[calc(100vw-2rem)] sm:w-80 pointer-events-auto">
+                <div className="max-w-[280px] mx-auto rounded-2xl border border-orange-500/30 bg-zinc-900 p-6 text-center shadow-2xl animate-in fade-in zoom-in duration-200 backdrop-blur-sm">
+                  <div className="mb-3 flex justify-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500/20 text-orange-500">
+                      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 8v4l3 3" />
+                        <circle cx="12" cy="12" r="10" />
+                      </svg>
+                    </div>
+                  </div>
+                  <p className="mb-4 text-sm font-medium text-zinc-100 leading-relaxed">
+                    {funnyMsg}
+                  </p>
+                  <div className="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-400">
+                    Resuming in <span className="text-lg">{Math.max(cooldownTimer, 0)}</span>s
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {messages.length === 0 && (
             <div className="pt-2">
               <p className="text-base font-semibold text-zinc-100">Hi, I'm Arif's assistant.</p>
@@ -182,7 +261,7 @@ export default function ChatBot() {
                   <button
                     key={s}
                     onClick={() => send(s)}
-                    disabled={isBusy}
+                    disabled={isBusy || isRateLimited}
                     className="rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2 text-left text-zinc-300 transition hover:border-blue-500/60 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 disabled:opacity-50"
                   >
                     {s}
@@ -216,7 +295,7 @@ export default function ChatBot() {
             );
           })}
 
-          {followUps.length > 0 && (
+          {followUps.length > 0 && !isRateLimited && (
             <div className="flex flex-wrap gap-2 pl-8 pt-1">
               {followUps.map(s => (
                 <button
@@ -271,12 +350,15 @@ export default function ChatBot() {
               onChange={e => setInput(e.target.value)}
               maxLength={500}
               aria-label="Your message"
-              placeholder="Ask a question..."
-              className="min-w-0 flex-1 rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              placeholder={isRateLimited ? `Wait ${Math.max(cooldownTimer, 0)}s...` : "Ask a question..."}
+              className={`min-w-0 flex-1 rounded-xl border ${
+                isRateLimited ? 'border-orange-500/50 bg-orange-950/10' : 'border-zinc-700 bg-zinc-950'
+              } px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500`}
+              disabled={isRateLimited}
             />
             <button
               type="submit"
-              disabled={!input.trim() || isBusy}
+              disabled={!input.trim() || isBusy || isRateLimited}
               aria-label="Send message"
               className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white transition hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 disabled:cursor-not-allowed disabled:opacity-40"
             >
